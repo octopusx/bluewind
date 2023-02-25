@@ -1,36 +1,28 @@
 #!/usr/bin/env python3
-# import sys
 import asyncio
+import click
 import time
-import spec
+import headwind.spec as spec
+from headwind import Headwind as Headwind
 
-# from bleak import BleakClient
-import headwind
 
-on = [0x4, 0x4, 0x2]
-off = [0x2, 0x0]
-sleep = [0x4, 0x1]
-hr = [0x4, 0x2]
-spd = [0x4, 0x3]
-speed = [0x2, 0x32]
+@click.command()
+@click.option('--address', default=None, help='headwind mac address')
+@click.option('--cmd', default=None, help='command to send')
+@click.option('--speed', default=1, help='manual speed value, 1 to 100')
+async def main(address, cmd, speed):
+    fan = Headwind(address)
+    match cmd:
+        case 'on':
+            print("turning fan on")
+            await fan.on()
+        case 'sleep':
+            print("putting fan to sleep")
+            await fan.sleep()
+        case 'manual':
+            print("seetting fan speed")
+            await fan.speed(speed)
 
-# async def main(address):
-#     async with BleakClient(address) as client:
-#         print(f"Connected: {client.is_connected}")
-
-#         print("Turning Device on...")
-#         # await client.write_gatt_char("a026e038-0a7d-4ab3-97fa-f1500f9feb8b", on)
-#         await client.write_gatt_char("a026e038-0a7d-4ab3-97fa-f1500f9feb8b", sleep)
-#         # await asyncio.sleep(1.0)
-
-async def main(address):
-    fan = headwind.Headwind(address)
-    print("turning fan on")
-    await fan.on()
-    print("wait 10 seconds")
-    time.sleep(10)
-    print("put fan to sleep")
-    await fan.sleep()
-
+#TODO: fix the async error with Click, or replace with another cli lib
 if __name__ == "__main__":
-    asyncio.run(main(spec.address))
+    asyncio.run(main())
