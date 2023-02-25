@@ -38,15 +38,3 @@ class Headwind:
             value = [0x2, hex(speed)]
             async with self.fanClient as client:
                 await client.write_gatt_char(CHARACTERISTIC, value)
-
-# async def main(address):
-#     async with BleakClient(address) as client:
-#         print(f"Connected: {client.is_connected}")
-
-#         print("Turning Device on...")
-#         # await client.write_gatt_char("a026e038-0a7d-4ab3-97fa-f1500f9feb8b", on)
-#         await client.write_gatt_char("a026e038-0a7d-4ab3-97fa-f1500f9feb8b", SLEEP)
-#         # await asyncio.sleep(1.0)
-
-# if __name__ == "__main__":
-#     asyncio.run(main(spec.address))
