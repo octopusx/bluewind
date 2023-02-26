@@ -35,6 +35,6 @@ class Headwind:
 
     async def manualSpeed(self, speed):
         if speed > 0:
-            value = [0x2, hex(speed)]
+            value = [0x2, speed]
             async with self.fanClient as client:
                 await client.write_gatt_char(CHARACTERISTIC, value)
