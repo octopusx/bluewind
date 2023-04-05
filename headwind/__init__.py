@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from bleak import BleakClient
 
 ON = [0x4, 0x4, 0x2]
